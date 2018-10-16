@@ -1,3 +1,30 @@
+﻿# Building ReporterOnly Guide
+
+1) import ReporterOnly from Git
+	a) in eclipse click file > import...
+	b) navigate to git folder and select “Projects from Git (with smart import)”
+	c) select “clone URL”
+	d) copy/paste git-hub repository URL into URL field (rest of fields should populate)
+	e) enter git-hub user name and password in authentication fields
+	f) select branch (or use default)
+	g) select local destination (or use default)
+	h) importer will import repository, click finish
+2) right click project (for all of following)
+	a) “Spring Tools > Add Spring Project Nature”
+	b) “Team > Switch To > New Branch” (complete this step before adding gradle nature)
+		i) create new branch 
+	c) “Configure > Add Gradle Nature”
+3) resolve dependencies
+	a) for errors involving importing ...
+		i) Lombok 
+			1) add Lombok.jar
+		ii) Joda
+			1) add Joda.Time.jar
+		iii) JacksonXml
+			1) add Jackson.core.jar
+	b) for errors involving authentication in config files ...
+		i) add spring.security.core.jar
+		ii) add spring.security.web.jar
 
 # Reporter application
 The _reporter_ is a web application that runs in a servlet engine and responds to requests
