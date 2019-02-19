@@ -58,6 +58,31 @@ public class ReporterController {
     public long getDefaultPing() throws Exception {
        return configurationExtractor.getDefaultPing();
     }
+    
+    /*
+    @RequestMapping(path = "/collectorUrl", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCollectorUrl() {
+    	return configurationExtractor.getCollectorUrl();
+    }*/
+    
+    @RequestMapping(path = "/serverUrl", method = RequestMethod.GET)
+    @ResponseBody
+    public String getServerUrl() {
+    	return configurationExtractor.getServerUrl();
+    }
+    
+    @RequestMapping(path = "/reporterUrl", method = RequestMethod.GET)
+    @ResponseBody
+    public String getReporterUrl() {
+    	return configurationExtractor.getReporterUrl();
+    }
+    
+    @RequestMapping(path = "/logNumber", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer getLogNumber() {
+    	return configurationExtractor.getLogNumber();
+    }
 
     @ExceptionHandler(IllegalStateException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

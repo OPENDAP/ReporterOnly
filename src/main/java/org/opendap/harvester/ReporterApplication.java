@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-//import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-//import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+
 
 // Replaced these with what follows as part of an upgrade to sprint-boot 1.5.7
 // This new version of spring-boot works with gradle 4 (so might fix the travis
@@ -42,9 +41,17 @@ public class ReporterApplication extends SpringBootServletInitializer {
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
-
+    
+    /*  
+    @Autowired
+    public static RegistrationImpl registration;
+    // */
+    
 	public static void main(String[] args) {
 		SpringApplication.run(ReporterApplication.class, args);
 		log.info("Application has been started");
+		//Registration registration = new RegistrationImpl();
+		//registration.registerationCall(log);
 	}
+	
 }
