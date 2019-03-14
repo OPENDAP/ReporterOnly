@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 //import javax.annotation.PostConstruct;
 
@@ -22,6 +23,7 @@ import org.springframework.test.context.TestPropertySource;
 @ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
         value = {ReporterApplication.class}))
 @TestPropertySource(properties = "hyrax.default.ping=3600")
+@WebAppConfiguration
 public class ReporterApplicationTest {
 
     @Bean
