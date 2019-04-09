@@ -10,7 +10,7 @@
         </DefaultPing> 
         
         <CollectorUrl>
-        	192.168.0.129:8081//harvester/registration?
+        	192.168.0.129:8081/harvester/registration?
         </CollectorUrl>
         <ServerUrl>
         	http://test.opendap.org/opendap
