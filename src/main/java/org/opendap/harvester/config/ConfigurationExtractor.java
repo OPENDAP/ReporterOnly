@@ -32,7 +32,7 @@ import static org.springframework.util.StringUtils.isEmpty;
  * valid directory, fallback to checking "/etc/olfs/".
  *
  * @todo This class has methods that trap exceptions. Review that.
- * @todo Add a check of the webaps/opendap/WEB_INF/conf dir to the list of places for config info
+ * @todo Add a check of the webapps/opendap/WEB_INF/conf dir to the list of places for config info
  * 
  * 1/31/19 - SBL - Added getCollectorUrl() method,
  * 		private string hyraxDefaultCollectorUrl variable,  
@@ -61,7 +61,7 @@ public class ConfigurationExtractor {
     @Value("${hyrax.logfile.path:}")
     private String hyraxLogfilePathFromProperties;
 
-    @Value("${hyrax.default.ping:3600}")
+    @Value("${hyrax.default.ping:}")
     private Long hyraxDefaultPingFromProperties;
     
     //SBL - used for the call to collector/registration on startup

@@ -1,6 +1,9 @@
 package org.opendap.harvester.controller;
 
+import org.opendap.harvester.ReporterApplication;
 import org.opendap.harvester.config.ConfigurationExtractor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/")
 public class HealthCheckController {
+	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	
     @Value("${reporter.version}")
     private String reporterVersion;
 
@@ -22,6 +27,7 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/healthcheck", method = RequestMethod.GET)
     public String healthCheck(){
+    	//log.info("hc.1) /healthcheck checkpoint");
         return "Reporter Application, Version = " + reporterVersion;
     }
 

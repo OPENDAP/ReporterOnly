@@ -3,20 +3,21 @@
 <OLFSConfig>
 
     <LogReporter>
-        <HyraxLogfilePath>Anonymous.log</HyraxLogfilePath>
+        <HyraxLogfilePath>/etc/olfs/logs/ExampleAnonymous.log</HyraxLogfilePath>
         
         <DefaultPing>
-            86400 <!-- daily 60*60*24-->
+            <!-- 86400 - daily 60*60*24 -->
+            600 <!-- every 10 mins -->
         </DefaultPing> 
         
         <CollectorUrl>
-        	192.168.0.129:8081//harvester/registration?
+        	34.226.249.132:8080/collector/harvester/registration?
         </CollectorUrl>
         <ServerUrl>
         	http://test.opendap.org/opendap
         </ServerUrl>
         <ReporterUrl>
-        	http://34.226.249.132:8080/reporter
+        	http://54.89.183.196:8080/reporter
         </ReporterUrl>
         <LogNumber>
         	100
