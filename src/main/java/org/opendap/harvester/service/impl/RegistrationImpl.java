@@ -20,24 +20,22 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.UUID;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.opendap.harvester.ReporterApplication;
 import org.opendap.harvester.config.ConfigurationExtractor;
 
 @Component
 public class RegistrationImpl implements Registration {
-	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
 	
 	@Autowired
 	private ConfigurationExtractor configurationExtractor;
@@ -200,46 +198,61 @@ public class RegistrationImpl implements Registration {
 	 */
 	private void callCollector(URL registrationUrl) {
 	// 1/31/19 - SBL - initial code
-		//log.info("call.1/5) callCollector() entry checkpoint"); // <---
+		log.info("call.1/5) callCollector() entry checkpoint"); // <---
 		HttpURLConnection connection = null;
-		//BufferedReader reader = null;
-		//StringBuilder stringBuilder;
+		BufferedReader reader = null;
+		StringBuilder stringBuilder;
 		
 		try {
 			connection = (HttpURLConnection)registrationUrl.openConnection();
-			//log.info("call.2/5) connection made"); // <---
+			log.info("call.2/5) connection made"); // <---
 			connection.setRequestMethod("GET");
-			//int responseCode = connection.getResponseCode();
-			//log.info("call.3/5) called collector with: "+registrationUrl); // <---
-			//log.info("call.4/5) response code: "+responseCode); // <---
+			int responseCode = connection.getResponseCode();
+			log.info("call.3/5) called collector with: "+registrationUrl); // <---
+			log.info("call.4/5) response code: "+responseCode); // <---
 			
-			/*
+			
 			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			//stringBuilder = new StringBuilder();
+			stringBuilder = new StringBuilder();
 			
 			String line = null;
+			String total = null;
+			UUID uuid = null;
 			int x = 0;
 			while((line = reader.readLine()) != null) {
-				//log.info("call.4.1."+x+"/5) line : "+line);
+				log.info("call.4.1."+x+") line : "+line);
+				stringBuilder.append(line);
 				x++;
 			}// end while
-			*/
 			
-			//log.info("call.4.2/5) done");
+			try {
+				JSONObject json = new JSONObject(stringBuilder.toString());
+				uuid = UUID.fromString(json.getString("serverUUID"));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//log.info("call.4.2) line substr : "+total.substring(240,276));
+			log.info("call.4.2) id : "+uuid.toString());
+			//uuid = UUID.fromString(line.substring(236,272));
+			
+			
+						
+			log.info("call.4.3) done");
 		} catch (MalformedURLException e){
 			e.printStackTrace();
 		} catch (ConnectException e) {
-			//log.info("call.1e) "+e.getMessage()); // <---
+			log.info("call.1e) "+e.getMessage()); // <---
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally {
 			if (connection != null) {
 				connection.disconnect();
-				//log.info("call.1f) disconnected"); // <---
+				log.info("call.1f) disconnected"); // <---
 			}//end if 
 		}//end finally
-		//log.info("call.5/5) returning <<"); // <---
+		log.info("call.5/5) returning <<"); // <---
 	}//end callCollector()
 	
 	/**
