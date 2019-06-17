@@ -20,6 +20,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ConnectException;
@@ -59,16 +61,6 @@ public class RegistrationImpl implements Registration {
 	public void init() {
 	// 2/7/19 - SBL - initial code
 	// 4/23/19 - SBL - removed @PostConstruct, was causing race condition
-	// 5/20/19 - SBL - test making 'reporter.uuid' file		
-		/*
-		File file = new File("./reporter.uuid");
-		try {
-			file.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} //
-		*/
-		
 		//log.info("init.1/2) init entry checkpoint"); // <---
 		registerationCall();
 		//log.info("init.2/2) after registeration call, returning <<"); // <---
@@ -216,7 +208,6 @@ public class RegistrationImpl implements Registration {
 			stringBuilder = new StringBuilder();
 			
 			String line = null;
-			String total = null;
 			UUID uuid = null;
 			int x = 0;
 			while((line = reader.readLine()) != null) {
@@ -236,7 +227,7 @@ public class RegistrationImpl implements Registration {
 			log.info("call.4.2) id : "+uuid.toString());
 			//uuid = UUID.fromString(line.substring(236,272));
 			
-			
+			saveUUIDtoFile(uuid);
 						
 			log.info("call.4.3) done");
 		} catch (MalformedURLException e){
@@ -254,6 +245,31 @@ public class RegistrationImpl implements Registration {
 		}//end finally
 		log.info("call.5/5) returning <<"); // <---
 	}//end callCollector()
+	
+	private void saveUUIDtoFile(UUID uuid) {
+	// 6/10/19 - SBL - initial code
+		File file = new File("./reporter.uuid");
+		
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		file.setReadable(true);
+		file.setExecutable(true);
+		FileWriter fw = null;
+		
+		try {
+			fw = new FileWriter(file);
+			fw.write(uuid.toString());
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}//end saveUUIDtoFile()
 	
 	/**
 	 * 
