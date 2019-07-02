@@ -25,9 +25,9 @@ public class CustomErrorController implements ErrorController {
         model.addAttribute("status", errorAttributes.get("status"));
         model.addAttribute("error", errorAttributes.get("error"));
         model.addAttribute("message", errorAttributes.get("message"));
-        String stacktrace = (String) errorAttributes.get("trace");
-        String[] split = stacktrace.split("\\r\\n");
-        model.addAttribute("trace", split);
+        //String stacktrace = (String) errorAttributes.get("trace");
+        //String[] split = stacktrace.split("\\r\\n");
+        //model.addAttribute("trace", split);
         return "errorPage";
     }
 

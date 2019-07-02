@@ -44,7 +44,6 @@ public class ReporterController {
     @ResponseBody
     public LogDataDto getLogsSince(@RequestParam(required = false) String since) throws Exception {
     	//log.info("/log.1/5) getLogsSince() entry");
-        // Calling service method and returning result
         LogData logData;
         //log.info("/log.2/5) checking if 'since' is empty");
         if (!StringUtils.isEmpty(since)){
@@ -66,12 +65,14 @@ public class ReporterController {
         return logExtractionService.buildDto(logData);
     }
 
-    // 4/16/19 - SBL - Methods below are for testing, leave commented for release versions    /*
+    // 4/16/19 - SBL - Methods below are for testing, leave commented for release versions    
+    /*
     @RequestMapping(path = "/defaultPing", method = RequestMethod.GET)
     @ResponseBody
     public long getDefaultPing() throws Exception {
        return configurationExtractor.getDefaultPing();
-    }//end defaultPing()    */
+    }//end defaultPing()    
+    */
     
     /*
     @RequestMapping(path = "/collectorUrl", method = RequestMethod.GET)

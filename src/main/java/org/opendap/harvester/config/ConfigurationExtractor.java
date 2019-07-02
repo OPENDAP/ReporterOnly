@@ -34,9 +34,6 @@ import static org.springframework.util.StringUtils.isEmpty;
  * @todo This class has methods that trap exceptions. Review that.
  * @todo Add a check of the webapps/opendap/WEB_INF/conf dir to the list of places for config info
  * 
- * 1/31/19 - SBL - Added getCollectorUrl() method,
- * 		private string hyraxDefaultCollectorUrl variable,  
- * 		private string hyraxDefaultCollectorUrlFromProperties variable.
  */
 @Component
 public class ConfigurationExtractor {
@@ -185,17 +182,15 @@ public class ConfigurationExtractor {
      * 1/31/19 - SBL - initial code
      */
     public String getCollectorUrl() {
-    	//log.info("getCollector entry checkpoint");
-    	//log.info(hyraxDefaultCollectorUrl);
     	if (hyraxDefaultCollectorUrl != null) {
     		return hyraxDefaultCollectorUrl;
     	}
-    	//log.info("pass not-null checkpoint");
+    	
     	String hyraxDefaultCollectorFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/CollectorUrl").trim();
     	hyraxDefaultCollectorUrl = !isEmpty(hyraxDefaultCollectorFromConfig)
     			? hyraxDefaultCollectorFromConfig 
     			: hyraxDefaultCollectorUrlFromProperties;
-    	//log.info(hyraxDefaultCollectorUrl);
+    	
     	return hyraxDefaultCollectorUrl;
     }
     
@@ -205,7 +200,6 @@ public class ConfigurationExtractor {
      * 		or from application.properties file if olfs file cannot be found
      * @return string of the url of the server
      * 
-     * 1/31/19 - SBL - initial code
      */
     public String getServerUrl() {
     	if (hyraxDefaultServerUrl != null) {
@@ -225,7 +219,6 @@ public class ConfigurationExtractor {
      * 		or from application.properties file if olfs file cannot be found
      * @return string of the url of the reporter
      * 
-     * 1/31/19 - SBL - initial code
      */
     public String getReporterUrl() {
     	if (hyraxDefaultReporterUrl != null) {
@@ -245,7 +238,6 @@ public class ConfigurationExtractor {
      * 		or from application.properties file if olfs file cannot be found
      * @return integer of the number of log to retrieve
      * 
-     * 1/31/19 - SBL - initial code
      */
     public Integer getLogNumber() {
     	if (hyraxDefaultLogNumber != null) {
@@ -306,7 +298,8 @@ public class ConfigurationExtractor {
                 elementValue = "";
             } */
         } catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            e.getMessage();
         }
 
         return elementValue != null ? elementValue : "";

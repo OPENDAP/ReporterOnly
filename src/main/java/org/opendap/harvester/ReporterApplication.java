@@ -42,16 +42,9 @@ public class ReporterApplication extends SpringBootServletInitializer {
         return new RestTemplate();
     }
     
-    /*  
-    @Autowired
-    public static RegistrationImpl registration;
-    // */
-    
 	public static void main(String[] args) {
 		SpringApplication.run(ReporterApplication.class, args);
 		log.info("Application has been started");
-		//Registration registration = new RegistrationImpl();
-		//registration.registerationCall(log);
 	}
 	
 }
