@@ -32,7 +32,8 @@ import static org.springframework.util.StringUtils.isEmpty;
  * valid directory, fallback to checking "/etc/olfs/".
  *
  * @todo This class has methods that trap exceptions. Review that.
- * @todo Add a check of the webaps/opendap/WEB_INF/conf dir to the list of places for config info
+ * @todo Add a check of the webapps/opendap/WEB_INF/conf dir to the list of places for config info
+ * 
  */
 @Component
 public class ConfigurationExtractor {
@@ -57,13 +58,32 @@ public class ConfigurationExtractor {
     @Value("${hyrax.logfile.path:}")
     private String hyraxLogfilePathFromProperties;
 
-    @Value("${hyrax.default.ping:3600}")
+    @Value("${hyrax.default.ping:}")
     private Long hyraxDefaultPingFromProperties;
+    
+    //SBL - used for the call to collector/registration on startup
+    @Value("${collector.url}")
+    private String hyraxDefaultCollectorUrlFromProperties;
+    
+    @Value("${collector.log.number}")
+    private Integer hyraxDefaultLogNumberFromProperties;
+    
+    @Value("${collector.server.url}")
+    private String hyraxDefaultServerUrlFromProperties;
+    
+    @Value("${collector.reporter.url}")
+    private String hyraxDefaultReporterUrlFromProperties;
 
     private String hyraxLogfilePath = null;
     private Long hyraxDefaultPing = null;
     private String linePatternPath = null;
     private LinePattern linePattern = null;
+    
+    //SBL - used for the call to collector/registration on startup
+    private String hyraxDefaultCollectorUrl = null;
+    private String hyraxDefaultServerUrl = null;
+    private String hyraxDefaultReporterUrl = null;
+    private Integer hyraxDefaultLogNumber = null;
 
     private LinePattern getLinePatternDirectly() {
         LinePattern linePattern = extractLinePatternFormOlfsXml();
@@ -152,6 +172,84 @@ public class ConfigurationExtractor {
                 : hyraxDefaultPingFromProperties;
         return hyraxDefaultPing;
     }
+    
+    /**
+     * getCollectorUrl method
+     * 		retrieves url of collector application from olfs.xml config file
+     * 		or from application.properties file if olfs file cannot be found
+     * @return string of the url of the collector.
+     * 
+     * 1/31/19 - SBL - initial code
+     */
+    public String getCollectorUrl() {
+    	if (hyraxDefaultCollectorUrl != null) {
+    		return hyraxDefaultCollectorUrl;
+    	}
+    	
+    	String hyraxDefaultCollectorFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/CollectorUrl").trim();
+    	hyraxDefaultCollectorUrl = !isEmpty(hyraxDefaultCollectorFromConfig)
+    			? hyraxDefaultCollectorFromConfig 
+    			: hyraxDefaultCollectorUrlFromProperties;
+    	
+    	return hyraxDefaultCollectorUrl;
+    }
+    
+    /**
+     * getServerUrl method
+     * 		retrieves url of server from olfs.xml config file
+     * 		or from application.properties file if olfs file cannot be found
+     * @return string of the url of the server
+     * 
+     */
+    public String getServerUrl() {
+    	if (hyraxDefaultServerUrl != null) {
+    		return hyraxDefaultServerUrl;
+    	}
+    	
+    	String hyraxDefaultServerUrlFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/ServerUrl").trim();
+    	hyraxDefaultServerUrl = !isEmpty(hyraxDefaultServerUrlFromConfig)
+    			? hyraxDefaultServerUrlFromConfig
+    			: hyraxDefaultServerUrlFromProperties;
+    	return hyraxDefaultServerUrl;
+    }
+    
+    /**
+     * getReporterUrl method
+     * 		retrieves url of reporter from olfs.xml config file
+     * 		or from application.properties file if olfs file cannot be found
+     * @return string of the url of the reporter
+     * 
+     */
+    public String getReporterUrl() {
+    	if (hyraxDefaultReporterUrl != null) {
+    		return hyraxDefaultReporterUrl;
+    	}
+    	
+    	String hyraxDefaultReporterUrlFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/ReporterUrl").trim();
+    	hyraxDefaultReporterUrl = !isEmpty(hyraxDefaultReporterUrlFromConfig)
+    			? hyraxDefaultReporterUrlFromConfig
+    			: hyraxDefaultReporterUrlFromProperties;
+    	return hyraxDefaultReporterUrl;
+    }
+    
+    /**
+     * getLogNumber method
+     * 		retrieves log number from olfs.xml config file
+     * 		or from application.properties file if olfs file cannot be found
+     * @return integer of the number of log to retrieve
+     * 
+     */
+    public Integer getLogNumber() {
+    	if (hyraxDefaultLogNumber != null) {
+    		return hyraxDefaultLogNumber;
+    	}
+    	
+    	String hyraxDefaultLogNumberFromConfig = extractDataFromOlfsXml("/OLFSConfig/LogReporter/LogNumber").trim();
+    	hyraxDefaultLogNumber = !isEmpty(hyraxDefaultLogNumberFromConfig)
+    			? Integer.valueOf(hyraxDefaultLogNumberFromConfig)
+    			: hyraxDefaultLogNumberFromProperties;
+    	return hyraxDefaultLogNumber;
+    }
 
     /**
      * What is the pathname to the log file this reporter will read from?
@@ -200,7 +298,8 @@ public class ConfigurationExtractor {
                 elementValue = "";
             } */
         } catch (XPathExpressionException | ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            e.getMessage();
         }
 
         return elementValue != null ? elementValue : "";
