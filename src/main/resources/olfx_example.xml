@@ -28,8 +28,8 @@
         </LogFilePatternPath -->
         
         <LogFilePattern>
-            <names>host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query</names>
-            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
+            <names>host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;size</names>
+            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
         </LogFilePattern>
     </LogReporter>
 
