@@ -155,7 +155,7 @@ public class RegistrationImpl implements Registration {
 				JSONObject json = new JSONObject(stringBuilder.toString());
 				uuid = UUID.fromString(json.getString("serverUUID"));
 			} catch (JSONException e) {
-				// TODO output JSONException to log file
+				// TODO output JSONException to log file. sbl 7.2.19
 				e.printStackTrace();
 			}
 			//log.info("call.4.2) id : "+uuid.toString());
@@ -164,14 +164,14 @@ public class RegistrationImpl implements Registration {
 						
 			//log.info("call.4.3) done");
 		} catch (MalformedURLException e){
-			//TODO output MalformedURLException to log file
+			//TODO output MalformedURLException to log file. sbl 7.2.19
 			e.printStackTrace();
 		} catch (ConnectException e) {
 			//log.info("call.1e) "+e.getMessage()); // <---
-			//TODO output ConnectException  to log file
+			//TODO output ConnectException to log file. sbl 7.2.19
 			e.printStackTrace();
 		} catch (IOException e) {
-			//TODO output IOException to log file
+			//TODO output IOException to log file. sbl 7.2.19
 			e.printStackTrace();
 		}finally {
 			if (connection != null) {
@@ -200,7 +200,7 @@ public class RegistrationImpl implements Registration {
 			fw.write(uuid.toString());
 			fw.close();
 		} catch (IOException e) {
-			// TODO output IOException to log file
+			// TODO output IOException to log file. sbl 7.2.19
 			e.printStackTrace();
 		}
 		

@@ -102,7 +102,7 @@ public class LogExtractionServiceImpl implements LogExtractionService {
                 parsedLines.add(parsedLogLine);
             }//end if - kosher line
             else if(!matched) { // <--- if not a match
-            	//TODO output parse error to log file 
+            	//TODO output parse error to log file. sbl 7.2.19
             	//log.info("getLL.4."+x+") line did not match pattern"); 
             }//end if - non kosher line
             //x++; // <-- used in debugging, SBL - 7.2.19
