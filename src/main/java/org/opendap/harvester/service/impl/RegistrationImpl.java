@@ -28,6 +28,7 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.UUID;
 
 import org.json.JSONException;
@@ -37,7 +38,7 @@ import org.opendap.harvester.config.ConfigurationExtractor;
 
 @Component
 public class RegistrationImpl implements Registration {
-	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
 	
 	@Autowired
 	private ConfigurationExtractor configurationExtractor;
@@ -87,7 +88,6 @@ public class RegistrationImpl implements Registration {
 		else {
 			//log.info("registration url is null"); // <---
 		}
-		
 		//log.info("regCall.3/3) called collector, returning <<");
 	}//end registerationCall()
 	
@@ -106,13 +106,15 @@ public class RegistrationImpl implements Registration {
 		long ping = configurationExtractor.getDefaultPing();
 		Integer logNumber = configurationExtractor.getLogNumber();
 		
-		URL url;
+		URL url = null;
 		try {
 			url = new URL("http://"+collectorUrl+"serverUrl="+serverUrl+"&reporterUrl="+reporterUrl+"&ping="+ping+"&log="+logNumber);
 			return url;
 		} catch (MalformedURLException e) {
+			String error = "/!\\ RegistrationImpl.java - BuildUrl() : "+ e.toString() +" /!\\";
+			log.error(error);
 			url = null;
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		//log.info("build.3/3) url built, returning <<");
 		return url;
@@ -130,14 +132,13 @@ public class RegistrationImpl implements Registration {
 		BufferedReader reader = null;
 		StringBuilder stringBuilder;
 		
-		try {
+		try {			
 			connection = (HttpURLConnection)registrationUrl.openConnection();
-			//log.info("call.2/5) connection made"); // <---
+			//log.info("call.2/5) connection made with : "+ registrationUrl.toString()); // <---
 			connection.setRequestMethod("GET");
 			//int responseCode = connection.getResponseCode();
-			//log.info("call.3/5) called collector with: "+registrationUrl); // <---
+			//log.info("call.3/5) called collector with: "+registrationUrl.toString()); // <---
 			//log.info("call.4/5) response code: "+responseCode); // <---
-			
 			
 			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			stringBuilder = new StringBuilder();
@@ -164,15 +165,18 @@ public class RegistrationImpl implements Registration {
 						
 			//log.info("call.4.3) done");
 		} catch (MalformedURLException e){
-			//TODO output MalformedURLException to log file
-			e.printStackTrace();
+			String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
+			log.error(error);
+			//e.printStackTrace();
 		} catch (ConnectException e) {
 			//log.info("call.1e) "+e.getMessage()); // <---
-			//TODO output ConnectException  to log file
-			e.printStackTrace();
+			String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
+			log.error(error);
+			//e.printStackTrace();
 		} catch (IOException e) {
-			//TODO output IOException to log file
-			e.printStackTrace();
+			String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
+			log.error(error);
+			//e.printStackTrace();
 		}finally {
 			if (connection != null) {
 				connection.disconnect();
@@ -181,6 +185,7 @@ public class RegistrationImpl implements Registration {
 		}//end finally
 		//log.info("call.5/5) returning <<"); // <---
 	}//end callCollector()
+	
 	
 	private void saveUUIDtoFile(UUID uuid) {
 		File file = new File("./reporter.uuid");
@@ -203,7 +208,6 @@ public class RegistrationImpl implements Registration {
 			// TODO output IOException to log file
 			e.printStackTrace();
 		}
-		
 	}//end saveUUIDtoFile()
 	
 }//end class RegistrationImpl
