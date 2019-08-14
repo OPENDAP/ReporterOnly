@@ -156,8 +156,9 @@ public class RegistrationImpl implements Registration {
 				JSONObject json = new JSONObject(stringBuilder.toString());
 				uuid = UUID.fromString(json.getString("serverUUID"));
 			} catch (JSONException e) {
-				// TODO output JSONException to log file
-				e.printStackTrace();
+				String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
+				log.error(error);
+				// e.printStackTrace();
 			}
 			//log.info("call.4.2) id : "+uuid.toString());
 			
@@ -193,7 +194,9 @@ public class RegistrationImpl implements Registration {
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
-			e.printStackTrace();
+			String error = "/!\\ RegistrationImpl.java - saveUUIDtoFile() : "+ e.toString() +" /!\\";
+			log.error(error);
+			//e.printStackTrace();
 		}
 		
 		file.setReadable(true);
@@ -205,8 +208,9 @@ public class RegistrationImpl implements Registration {
 			fw.write(uuid.toString());
 			fw.close();
 		} catch (IOException e) {
-			// TODO output IOException to log file
-			e.printStackTrace();
+			String error = "/!\\ RegistrationImpl.java - saveUUIDtoFile() : "+ e.toString() +" /!\\";
+			log.error(error);
+			// e.printStackTrace();
 		}
 	}//end saveUUIDtoFile()
 	
