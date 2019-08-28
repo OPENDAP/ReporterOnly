@@ -71,9 +71,21 @@ public class RegistrationImpl implements Registration {
 	 */
 	public void registerationCall() {
 		//log.info("registerCall.1/3) registration entry checkpoint"); // <---
-		if(configurationExtractor == null) {
-			//log.info("registerCall.1e) config extractor is null"); // <---
-			//log.info("config extractor is null");
+		try {
+			if(configurationExtractor == null) {
+				log.error("registerCall.1e) config extractor is null"); // <---
+				//log.info("config extractor is null");
+				configurationExtractor = new ConfigurationExtractor();
+				if(configurationExtractor == null) {
+					throw new NullPointerException(); 
+				}
+				else {
+					log.info("registerCall.1e) config extractor null error recovered");
+				}
+			}
+		}catch(NullPointerException e) {
+			String error = "/!\\ RegistrationImpl.java - registrationCall() : "+ e.toString() +" /!\\";
+			log.error(error);
 		}
 		
 		URL registrationUrl = buildUrl();
@@ -86,7 +98,8 @@ public class RegistrationImpl implements Registration {
 			//callPostCollector(registrationUrl);
 		}
 		else {
-			//log.info("registration url is null"); // <---
+			String error = "/!\\ RegistrationImpl.java - registrationCall() : registration URL was null /!\\";
+			log.error(error); // <---
 		}
 		//log.info("regCall.3/3) called collector, returning <<");
 	}//end registerationCall()
