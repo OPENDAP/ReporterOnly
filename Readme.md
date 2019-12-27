@@ -89,8 +89,8 @@ and:
 1. hyrax.logfile.path = /etc/olfs/logs/AnonymousAccess.log
 1. hyrax.default.ping = 3600
 1. \# logfile.pattern.path = logLinePattern.json # use this to override the pattern below.
-1. logfile.pattern.names = host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query
-1. logfile.pattern.regexp = \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\]
+1. logfile.pattern.names = host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;size (note that _host_ is a misnomer, it's really the User Agent information).
+1. logfile.pattern.regexp = \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\]
 
 The last five parameters can also be set from within the ```olfs.xml```
 file.
