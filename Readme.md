@@ -65,7 +65,7 @@ and:
 1. logfile.pattern.names = host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;size (note that _host_ is a misnomer, it's really the User Agent information).
 1. logfile.pattern.regexp = \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\] \\[(.*)\\]
 
-The last five parameters can also be set from within the ```olfs.xml```
+The last five parameters (hyrax.logfile.path onward) can also be set from within the ```olfs.xml```
 file.
 
 The reporter needs to know where to read the logged data. Because of
@@ -83,18 +83,40 @@ configuration option because the ideas of what we can gather in terms
 of usage information may change over time and we would like to be
 able to respond to those changes.
 
-The last two parameters can also be set using the _olfs.xml_ configuration file. To do so,
-include the following XML elements in that file:
-
 ```xml
-<LogReporter>
-    <HyraxLogfilePath>
-        /etc/olfs/logs/AnonymousAccess.log
-    <HyraxLogfilePath>
-    <DefaultPing>
-        3600
-    </DefaultPing>
-</LogReporter>
+<OLFSConfig>
+    ...
+    <LogReporter>
+        <HyraxLogfilePath>/etc/olfs/logs/AnonymousAccess.log</HyraxLogfilePath>
+
+        <DefaultPing>
+            <!-- 86400 - daily 60*60*24 -->
+            600 <!-- every 10 mins -->
+        </DefaultPing>
+
+        <CollectorUrl>
+                http://collector.opendap.org:8080/collector/harvester/registration?
+        </CollectorUrl>
+        <ServerUrl>
+                http://balto.opendap.org/opendap
+        </ServerUrl>
+        <ReporterUrl>
+                http://balto.opendap.org:8080/reporter
+        </ReporterUrl>
+        <LogNumber>
+                1000
+        </LogNumber>
+
+        <!--  LogFilePatternPath>
+            logLinePattern.json
+        </LogFilePatternPath -->
+
+        <LogFilePattern>
+            <names>host;sessionId;localDateTime;duration;httpStatus;requestId;httpVerb;resourceId;query;size</names>
+            <regexp>\[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\] \[(.*)\]</regexp>
+        </LogFilePattern>
+    </LogReporter>
+</OLFSConfig>
 ```
 
 The reporter will look for the OLFS.xml file in the directory named by the environment
