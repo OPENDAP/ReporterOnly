@@ -1,5 +1,5 @@
 /**
- Copyright (c) 2019 OPeNDAP, Inc.
+0 Copyright (c) 2019 OPeNDAP, Inc.
  Please read the full copyright statement in the file LICENSE.
 
  Authors: 
