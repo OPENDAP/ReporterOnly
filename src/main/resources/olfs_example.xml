@@ -11,7 +11,8 @@
         </DefaultPing> 
         
         <CollectorUrl>
-        	34.226.249.132:8080/collector/harvester/registration?
+        	<!-- 34.226.249.132:8080/collector/harvester/registration? -->
+        	collector.opendap.org:8080/collector/harvester/registration?
         </CollectorUrl>
         <ServerUrl>
         	http://test.opendap.org/opendap
