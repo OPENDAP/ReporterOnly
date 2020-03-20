@@ -98,14 +98,14 @@ public class RegistrationImpl implements Registration {
 		//log.info("registerCall.1/3) registration entry checkpoint"); // <---
 		try {
 			if(configurationExtractor == null) {
-				log.error("registerCall.1e) config extractor is null"); // <---
+				//log.error("registerCall.1e) config extractor is null"); // <---
 				//log.info("config extractor is null");
 				configurationExtractor = new ConfigurationExtractor();
 				if(configurationExtractor == null) {
 					throw new NullPointerException(); 
 				}
 				else {
-					log.info("registerCall.1e) config extractor null error recovered");
+					//log.info("registerCall.1e) config extractor null error recovered");
 				}
 			}
 		}catch(NullPointerException e) {
