@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
  Copyright (c) 2019 OPeNDAP, Inc.
  Please read the full copyright statement in the file LICENSE.
@@ -23,12 +24,12 @@
  You can contact OPeNDAP, Inc. at PO Box 112, Saunderstown, RI. 02874-0112.
  -->
 
-<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee " 
 	version="2.4" id="WebApp_ID" >
-	<!-- http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"  -->
+	<!-- http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd -->
+
 	<display-name>ReporterOnly</display-name>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

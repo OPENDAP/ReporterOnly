@@ -50,9 +50,9 @@ import static org.springframework.util.StringUtils.isEmpty;
 /**
  * @brief Read configuration information needed by the reporter service.
  *
- * Look for the "olfs.xml" file and use that as the primary source of configuration
+ * Look for the "reporter.xml" file and use that as the primary source of configuration
  * information. If that cannot be found, then use the default values baked in from
- * the application.properties file. To look for the olfs.xml file, first check the
+ * the application.properties file. To look for the reporter.xml file, first check the
  * value of the OLFS_CONFIG_DIR environment variable and, if that does not name a
  * valid directory, fallback to checking "/etc/olfs/".
  *
@@ -64,7 +64,7 @@ import static org.springframework.util.StringUtils.isEmpty;
 public class ConfigurationExtractor {
     private static final String ENV_VAR_NAME = "OLFS_CONFIG_DIR";
     private static final String DEFAULT_CONFIG_DIR = "/etc/olfs/";
-    private static final String DEFAULT_CONFIG_FILE = "olfs.xml";
+    private static final String DEFAULT_CONFIG_FILE = "reporter.xml";
     private static final String WEB_INF = "WEB-INF";
     private static final String OPENDAP_APPLICATION_NAME = "opendap";
 
@@ -133,7 +133,7 @@ public class ConfigurationExtractor {
 
     /**
      * Get the pathname to the JSON file that contains the log file field regex and
-     * names. Look in the configuration file (olfs.xml) and default to the 
+     * names. Look in the configuration file (reporter.xml) and default to the 
      * application.properties.
      * 
      * @return Return the name of the JSON file or an empty string.
@@ -155,7 +155,7 @@ public class ConfigurationExtractor {
      * in the configuration or application.properties file.
      * 
      * @note I think the JSON file should be dropped - the regex and names should be 
-     * read from the config file (olfs.xml) or the application.properties.
+     * read from the config file (reporter.xml) or the application.properties.
      * 
      * @todo Handle the error when the path is set, but the file is missing
      * @todo Handle the error when the pattern information cannot be found.
@@ -200,7 +200,7 @@ public class ConfigurationExtractor {
     
     /**
      * getCollectorUrl method
-     * 		retrieves url of collector application from olfs.xml config file
+     * 		retrieves url of collector application from reporter.xml config file
      * 		or from application.properties file if olfs file cannot be found
      * @return string of the url of the collector.
      * 
@@ -221,7 +221,7 @@ public class ConfigurationExtractor {
     
     /**
      * getServerUrl method
-     * 		retrieves url of server from olfs.xml config file
+     * 		retrieves url of server from reporter.xml config file
      * 		or from application.properties file if olfs file cannot be found
      * @return string of the url of the server
      * 
@@ -240,7 +240,7 @@ public class ConfigurationExtractor {
     
     /**
      * getReporterUrl method
-     * 		retrieves url of reporter from olfs.xml config file
+     * 		retrieves url of reporter from reporter.xml config file
      * 		or from application.properties file if olfs file cannot be found
      * @return string of the url of the reporter
      * 
@@ -259,7 +259,7 @@ public class ConfigurationExtractor {
     
     /**
      * getLogNumber method
-     * 		retrieves log number from olfs.xml config file
+     * 		retrieves log number from reporter.xml config file
      * 		or from application.properties file if olfs file cannot be found
      * @return integer of the number of log to retrieve
      * 
@@ -299,13 +299,13 @@ public class ConfigurationExtractor {
     }
 
     /**
-     * Read configuration information from the olfs.xml file.
+     * Read configuration information from the reporter.xml file.
      *
-     * Read configuration information from the "olfs.xml" (or the DEFAULT_CONFIG_FILE).
+     * Read configuration information from the "reporter.xml" (or the DEFAULT_CONFIG_FILE).
      * If the configuration file cannot be found or does not contain the information,
      * return the empty string (not a null).
      *
-     * @param xPathRoute The XPath to an element in the olfs.xml file.
+     * @param xPathRoute The XPath to an element in the reporter.xml file.
      * @return The value of the element or the empty string.
      */
     private String extractDataFromOlfsXml(String xPathRoute) {

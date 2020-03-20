@@ -62,7 +62,8 @@ import org.opendap.harvester.config.ConfigurationExtractor;
 
 @Component
 public class RegistrationImpl implements Registration {
-	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private boolean logOutput = false;
 	
 	@Autowired
 	private ConfigurationExtractor configurationExtractor;
@@ -73,9 +74,9 @@ public class RegistrationImpl implements Registration {
 	 */
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
-		//log.info("event.1/2) application started");
+		if(logOutput) {log.info("event.1/2) application started"); }
 		init();
-		//log.info("event.2/2) DONE");
+		if(logOutput) {log.info("event.2/2) DONE"); }
 	}//end onApplicationEvent()
 		
 	/**
@@ -83,9 +84,9 @@ public class RegistrationImpl implements Registration {
 	 * 		starts the registration process
 	 */
 	public void init() {
-		//log.info("init.1/2) init entry checkpoint"); // <---
+		if(logOutput) {log.info("init.1/2) init entry checkpoint"); }
 		registerationCall();
-		//log.info("init.2/2) after registeration call, returning <<"); // <---
+		if(logOutput) {log.info("init.2/2) after registeration call, returning <<"); }
 	}//end init()
 	
 	/**
@@ -94,26 +95,26 @@ public class RegistrationImpl implements Registration {
 	 * 		builds registration url from config files and calls collector using url.
 	 */
 	public void registerationCall() {
-		//log.info("registerCall.1/3) registration entry checkpoint"); // <---
+		if(logOutput) {log.info("registerCall.1/3) registration entry checkpoint"); }
 		if(configurationExtractor == null) {
-			//log.info("registerCall.1e) config extractor is null"); // <---
-			//log.info("config extractor is null");
+			if(logOutput) {log.info("registerCall.1e) config extractor is null"); }
+			if(logOutput) {log.info("config extractor is null"); }
 		}
 		
 		URL registrationUrl = buildUrl();
 		//URL registrationUrl = buildPOSTUrl();
 
-		//log.info("registerCall.2/3) url : "+ registrationUrl); // <---
+		if(logOutput) {log.info("registerCall.2/3) url : "+ registrationUrl); }
 		if(registrationUrl != null) {
-			//log.info("registerCall.2.1) url not null"); // <---
+			if(logOutput) {log.info("registerCall.2.1) url not null"); }
 			callCollector(registrationUrl);
 			//callPostCollector(registrationUrl);
 		}
 		else {
-			//log.info("registration url is null"); // <---
+			if(logOutput) {log.info("registration url is null"); }
 		}
 		
-		//log.info("regCall.3/3) called collector, returning <<");
+			if(logOutput) {log.info("regCall.3/3) called collector, returning <<"); }
 	}//end registerationCall()
 	
 	/**
@@ -122,9 +123,9 @@ public class RegistrationImpl implements Registration {
 	 * @return registration URL built from config files.
 	 */
 	private URL buildUrl() {
-		//log.info("build.1/3) buildUrl() entry checkpoint"); // <---
+		if(logOutput) {log.info("build.1/3) buildUrl() entry checkpoint"); }
 		String collectorUrl = configurationExtractor.getCollectorUrl();
-		//log.info("build.2/3) collector : "+collectorUrl); // <---
+		if(logOutput) {log.info("build.2/3) collector : "+collectorUrl); }
 		
 		String serverUrl = configurationExtractor.getServerUrl();
 		String reporterUrl = configurationExtractor.getReporterUrl();
@@ -139,7 +140,7 @@ public class RegistrationImpl implements Registration {
 			url = null;
 			e.printStackTrace();
 		}
-		//log.info("build.3/3) url built, returning <<");
+		if(logOutput) {log.info("build.3/3) url built, returning <<"); }
 		return url;
 	}//end buildUrl()
 	
@@ -150,18 +151,18 @@ public class RegistrationImpl implements Registration {
 	 * @param registrationUrl of the collector application]
 	 */
 	private void callCollector(URL registrationUrl) {
-		//log.info("call.1/5) callCollector() entry checkpoint"); // <---
+		if(logOutput) {log.info("call.1/5) callCollector() entry checkpoint"); }
 		HttpURLConnection connection = null;
 		BufferedReader reader = null;
 		StringBuilder stringBuilder;
 		
 		try {
 			connection = (HttpURLConnection)registrationUrl.openConnection();
-			//log.info("call.2/5) connection made"); // <---
+			if(logOutput) {log.info("call.2/5) connection made"); }
 			connection.setRequestMethod("GET");
-			//int responseCode = connection.getResponseCode();
-			//log.info("call.3/5) called collector with: "+registrationUrl); // <---
-			//log.info("call.4/5) response code: "+responseCode); // <---
+			int responseCode = connection.getResponseCode();
+			if(logOutput) {log.info("call.3/5) called collector with: "+registrationUrl); }
+			if(logOutput) {log.info("call.4/5) response code: "+responseCode); }
 			
 			
 			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -169,11 +170,11 @@ public class RegistrationImpl implements Registration {
 			
 			String line = null;
 			UUID uuid = null;
-			//int x = 0; //used for debugging - SBL 7.2.19
+			int x = 0; //used for debugging - SBL 7.2.19
 			while((line = reader.readLine()) != null) {
-				//log.info("call.4.1."+x+") line : "+line);
+				if(logOutput) {log.info("call.4.1."+x+") line : "+line); }
 				stringBuilder.append(line);
-				//x++; //used for debugging - SBL 7.2.19
+				x++; //used for debugging - SBL 7.2.19
 			}// end while
 			
 			try {
@@ -183,17 +184,17 @@ public class RegistrationImpl implements Registration {
 				// TODO output JSONException to log file. sbl 7.2.19
 				e.printStackTrace();
 			}
-			//log.info("call.4.2) id : "+uuid.toString());
+			if(logOutput) {log.info("call.4.2) id : "+uuid.toString()); }
 			
 			saveUUIDtoFile(uuid);
 						
-			//log.info("call.4.3) done");
+			if(logOutput) {log.info("call.4.3) done"); }
 		} catch (MalformedURLException e){
 			//TODO output MalformedURLException to log file. sbl 7.2.19
 			e.printStackTrace();
 		} catch (ConnectException e) {
-			//log.info("call.1e) "+e.getMessage()); // <---
-			//TODO output ConnectException to log file. sbl 7.2.19
+			if(logOutput) {log.info("call.1e) "+e.getMessage()); }
+			//TODO output ConnectException  to log file
 			e.printStackTrace();
 		} catch (IOException e) {
 			//TODO output IOException to log file. sbl 7.2.19
@@ -201,10 +202,10 @@ public class RegistrationImpl implements Registration {
 		}finally {
 			if (connection != null) {
 				connection.disconnect();
-				//log.info("call.1f) disconnected"); // <---
+				if(logOutput) {log.info("call.1f) disconnected"); }
 			}//end if 
 		}//end finally
-		//log.info("call.5/5) returning <<"); // <---
+			if(logOutput) {log.info("call.5/5) returning <<"); }
 	}//end callCollector()
 	
 	private void saveUUIDtoFile(UUID uuid) {
