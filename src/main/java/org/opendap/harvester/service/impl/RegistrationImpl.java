@@ -63,7 +63,7 @@ import org.opendap.harvester.config.ConfigurationExtractor;
 @Component
 public class RegistrationImpl implements Registration {
 	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
-	private boolean logOutput = false;
+	private boolean logOutput = true;
 	
 	@Autowired
 	private ConfigurationExtractor configurationExtractor;
@@ -134,7 +134,7 @@ public class RegistrationImpl implements Registration {
 		
 		URL url;
 		try {
-			url = new URL("http://"+collectorUrl+"serverUrl="+serverUrl+"&reporterUrl="+reporterUrl+"&ping="+ping+"&log="+logNumber);
+			url = new URL(collectorUrl+"serverUrl="+serverUrl+"&reporterUrl="+reporterUrl+"&ping="+ping+"&log="+logNumber);
 			return url;
 		} catch (MalformedURLException e) {
 			url = null;
