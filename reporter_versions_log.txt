@@ -1,0 +1,5 @@
+Reporter Versions Log
+
+Version # 	:	 Github Branch	:	 Description of changes
+============================================================================================================
+1.0.1 		:	 HK-609 		:	 Fix socket connection error on startup
