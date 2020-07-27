@@ -12,7 +12,7 @@
         
         <CollectorUrl>
         	<!-- 34.226.249.132:8080/collector/harvester/registration? -->
-        	collector.opendap.org:8080/collector/harvester/registration?
+        	http://collector.opendap.org:8080/collector/harvester/registration?
         </CollectorUrl>
         <ServerUrl>
         	http://test.opendap.org/opendap
