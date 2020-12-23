@@ -55,7 +55,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class LogExtractionServiceImpl implements LogExtractionService {
-	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
 	
     @Autowired
     private LogLineService logLineService;
@@ -128,6 +128,7 @@ public class LogExtractionServiceImpl implements LogExtractionService {
                 parsedLines.add(parsedLogLine);
             }//end if - kosher line
             else if(!matched) { // <--- if not a match
+            	//TODO output parse error to log file. sbl 7.2.19
             	String error = "/!\\ LogExtractionServiceImpl.java - getLogLines() : malformed log line - \""+ line +"\" /!\\";
             	log.error(error);
             	y++;

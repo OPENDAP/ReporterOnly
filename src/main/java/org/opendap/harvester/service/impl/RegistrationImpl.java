@@ -140,6 +140,7 @@ public class RegistrationImpl implements Registration {
 		String serverUrl = configurationExtractor.getServerUrl();
 		String reporterUrl = configurationExtractor.getReporterUrl();
 		long ping = configurationExtractor.getDefaultPing();
+	/**
 		Integer logNumber = configurationExtractor.getLogNumber();
 		
 		URL url = null;
@@ -155,12 +156,6 @@ public class RegistrationImpl implements Registration {
 		if(logOutput) {log.info("build.3/3) url built, returning <<"); }
 		return url;
 	}//end buildUrl()
-		}
-		if(logOutput) {log.info("build.3/3) url built, returning <<"); }
-		return url;
-	}//end buildUrl()
-	
-	/**
 	 * callCollector method
 	 * 		takes passed in registrationUrl and uses it to opens a connection 
 	 * 		which registers (or updates) the reporter with the collector.
@@ -196,9 +191,8 @@ public class RegistrationImpl implements Registration {
 				JSONObject json = new JSONObject(stringBuilder.toString());
 				uuid = UUID.fromString(json.getString("serverUUID"));
 			} catch (JSONException e) {
-				String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
-				log.error(error);
-				// e.printStackTrace();
+				// TODO output JSONException to log file. sbl 7.2.19
+				e.printStackTrace();
 			}
 			if(logOutput) {log.info("call.4.2) id : "+uuid.toString()); }
 			
@@ -206,28 +200,9 @@ public class RegistrationImpl implements Registration {
 						
 			if(logOutput) {log.info("call.4.3) done"); }
 		} catch (MalformedURLException e){
-			String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
-			log.error(error);
-			//e.printStackTrace();
+			//TODO output MalformedURLException to log file. sbl 7.2.19
+			e.printStackTrace();
 		} catch (ConnectException e) {
-			if(logOutput) {log.info("call.1e) "+e.getMessage()); }
-			String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
-			log.error(error);
-			//e.printStackTrace();
-		} catch (IOException e) {
-			String error = "/!\\ RegistrationImpl.java - callCollector() : "+ e.toString() +" /!\\";
-			log.error(error);
-			//e.printStackTrace();
-		}finally {
-			if (connection != null) {
-				connection.disconnect();
-				if(logOutput) {log.info("call.1f) disconnected"); }
-			}//end if 
-		}//end finally
-			if(logOutput) {log.info("call.5/5) returning <<"); }
-	}//end callCollector()
-	
-	
 	private void saveUUIDtoFile(UUID uuid) {
 		File file = new File("./reporter.uuid");
 		
@@ -248,9 +223,8 @@ public class RegistrationImpl implements Registration {
 			fw.write(uuid.toString());
 			fw.close();
 		} catch (IOException e) {
-			String error = "/!\\ RegistrationImpl.java - saveUUIDtoFile() : "+ e.toString() +" /!\\";
-			log.error(error);
-			// e.printStackTrace();
+			// TODO output IOException to log file. sbl 7.2.19
+			e.printStackTrace();
 		}
 	}//end saveUUIDtoFile()
 	
