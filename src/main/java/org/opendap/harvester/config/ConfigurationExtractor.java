@@ -314,9 +314,12 @@ public class ConfigurationExtractor {
         try {
             String configDir = getConfigDir();
             if (configDir != null) {
-                // FIXME Add test that the file exists and is readable. jhrg 10/4/17
                 configDir += DEFAULT_CONFIG_FILE;
-                elementValue = xPath.compile(xPathRoute).evaluate(loadXMLFromFile(configDir));
+                // COMPLETED Add test that the file exists and is readable. jhrg 10/4/17
+                File tmp = new File(configDir);
+                if (tmp.exists() && tmp.canRead()) {
+                	elementValue = xPath.compile(xPathRoute).evaluate(loadXMLFromFile(configDir));
+                }
             }
             /* Removed because XPath...evaluate() might return null.
             else {

@@ -55,7 +55,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class LogExtractionServiceImpl implements LogExtractionService {
-	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
 	
     @Autowired
     private LogLineService logLineService;
@@ -110,6 +110,7 @@ public class LogExtractionServiceImpl implements LogExtractionService {
         //log.info("getLL.4.0.1) parsing lines ..."); 
         List<LogLine> parsedLines = new ArrayList<>();
         //int x = 1; // <-- used in debugging, SBL - 7.2.19
+        int y = 0;
         for (String line : allLines){
         	
         	if (line.trim().isEmpty()) { // <--- check for blank line before parsing
@@ -127,11 +128,18 @@ public class LogExtractionServiceImpl implements LogExtractionService {
                 parsedLines.add(parsedLogLine);
             }//end if - kosher line
             else if(!matched) { // <--- if not a match
-            	//TODO output parse error to log file 
+            	String error = "/!\\ LogExtractionServiceImpl.java - getLogLines() : malformed log line - \""+ line +"\" /!\\";
+            	log.error(error);
+            	y++;
             	//log.info("getLL.4."+x+") line did not match pattern"); 
             }//end if - non kosher line
             //x++; // <-- used in debugging, SBL - 7.2.19
         }//end for loop
+        
+        if(y != 0) {
+        	String error = "/!\\ LogExtractionServiceImpl.java - getLogLines() : number of malformed log lines - "+ y +" lines /!\\";
+        	log.error(error);
+        }//end if
         
         //log.info("getLL.5/5) lines parsed, returning <<"); 
         return parsedLines;

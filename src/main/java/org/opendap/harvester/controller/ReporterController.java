@@ -29,12 +29,16 @@
  */
 package org.opendap.harvester.controller;
 
+import java.io.File;
+
 import org.joda.time.LocalDateTime;
 import org.opendap.harvester.ReporterApplication;
 import org.opendap.harvester.config.ConfigurationExtractor;
 import org.opendap.harvester.entity.LogData;
 import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
+import org.opendap.harvester.service.Registration;
+import org.opendap.harvester.service.impl.RegistrationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +92,18 @@ public class ReporterController {
         }
         //log.info("/log.5/5) kosher data, returning <<");
         return logExtractionService.buildDto(logData);
+    }
+    
+    @RequestMapping(path = "/register", method = RequestMethod.GET)
+    @ResponseBody
+    public void registerReporter() {
+        File tmp = new File("./reporter.uuid");
+        if (tmp.exists() && tmp.canRead()) {
+        	tmp.delete();
+        }
+    	
+    	RegistrationImpl r = new RegistrationImpl();
+    	r.init();
     }
 
     // 4/16/19 - SBL - Methods below are for testing, leave commented for release versions    
