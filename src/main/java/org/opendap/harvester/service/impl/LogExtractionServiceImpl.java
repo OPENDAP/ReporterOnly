@@ -110,6 +110,7 @@ public class LogExtractionServiceImpl implements LogExtractionService {
         //log.info("getLL.4.0.1) parsing lines ..."); 
         List<LogLine> parsedLines = new ArrayList<>();
         //int x = 1; // <-- used in debugging, SBL - 7.2.19
+        int y = 0;
         for (String line : allLines){
         	
         	if (line.trim().isEmpty()) { // <--- check for blank line before parsing
@@ -128,10 +129,18 @@ public class LogExtractionServiceImpl implements LogExtractionService {
             }//end if - kosher line
             else if(!matched) { // <--- if not a match
             	//TODO output parse error to log file. sbl 7.2.19
+            	String error = "/!\\ LogExtractionServiceImpl.java - getLogLines() : malformed log line - \""+ line +"\" /!\\";
+            	log.error(error);
+            	y++;
             	//log.info("getLL.4."+x+") line did not match pattern"); 
             }//end if - non kosher line
             //x++; // <-- used in debugging, SBL - 7.2.19
         }//end for loop
+        
+        if(y != 0) {
+        	String error = "/!\\ LogExtractionServiceImpl.java - getLogLines() : number of malformed log lines - "+ y +" lines /!\\";
+        	log.error(error);
+        }//end if
         
         //log.info("getLL.5/5) lines parsed, returning <<"); 
         return parsedLines;
