@@ -37,12 +37,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @todo I think this code can be merged into ReporterController. jhrg 10/8/17
+ * TODO I think this code can be merged into ReporterController. jhrg 10/8/17
  */
 @RestController
 @RequestMapping("/")
 public class HealthCheckController {
-	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private boolean logOutput = false;
 	
     @Value("${reporter.version}")
     private String reporterVersion;
@@ -52,12 +53,12 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/healthcheck", method = RequestMethod.GET)
     public String healthCheck(){
-    	//log.info("hc.1) /healthcheck checkpoint");
-        return "Reporter Application, Version = " + reporterVersion;
+    	if(logOutput) {	log.info("hc.1) /healthcheck checkpoint"); }
+        return "Reporter_Version : " + reporterVersion;
     }
 
     /**
-     * @todo Make this a more complete response. It could return the default and 
+     * TODO Make this a more complete response. It could return the default and 
      * configured parameter values.
      * 
      * @return A string returned to the browser/client.
