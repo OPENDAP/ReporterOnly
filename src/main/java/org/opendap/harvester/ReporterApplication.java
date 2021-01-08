@@ -55,10 +55,11 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableScheduling
 public class ReporterApplication extends SpringBootServletInitializer {
-	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	public static Logger logger;
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		logger = LoggerFactory.getLogger(ReporterApplication.class);
 		return application.sources(ReporterApplication.class);
 	}
 
@@ -69,7 +70,7 @@ public class ReporterApplication extends SpringBootServletInitializer {
     
 	public static void main(String[] args) {
 		SpringApplication.run(ReporterApplication.class, args);
-		log.info("Application has been started");
+		logger.info("Application has been started");
 	}
 	
 }

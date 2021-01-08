@@ -53,7 +53,6 @@ import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.UUID;
 
 import org.json.JSONException;
@@ -64,7 +63,8 @@ import org.opendap.harvester.config.ConfigurationExtractor;
 @Component
 public class RegistrationImpl implements Registration {
 	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
-	private boolean logOutput = true;
+	private boolean logOutput = false;
+	private boolean testing = true; // this should alway be 'false' unless testing - SBL 12.24.20
 	
 	@Autowired
 	private ConfigurationExtractor configurationExtractor;
@@ -86,7 +86,9 @@ public class RegistrationImpl implements Registration {
 	 */
 	public void init() {
 		if(logOutput) {log.info("init.1/2) init entry checkpoint"); }
-		registerationCall();
+		if (!testing) {
+			registerationCall();
+		}
 		if(logOutput) {log.info("init.2/2) after registeration call, returning <<"); }
 	}//end init()
 	
@@ -117,7 +119,7 @@ public class RegistrationImpl implements Registration {
 		URL registrationUrl = buildUrl();
 		//URL registrationUrl = buildPOSTUrl();
 
-		if(logOutput) {log.info("registerCall.2/3) url : "+ registrationUrl); }
+		if(logOutput) { log.info("registerCall.2/3) url : "+ registrationUrl); }
 		if(registrationUrl != null) {
 			if(logOutput) {log.info("registerCall.2.1) url not null"); }
 			callCollector(registrationUrl);
@@ -125,8 +127,10 @@ public class RegistrationImpl implements Registration {
 		}
 		else {
 			String error = "/!\\ RegistrationImpl.java - registrationCall() : registration URL was null /!\\";
-			log.error(error); // <---
+			if(logOutput) { log.error(error); }
 		}
+	}// end registrationCall()
+	
 	/**
 	 * buildUrl method 
 	 * 		builds registration url from config files and returns it to caller.
@@ -140,7 +144,6 @@ public class RegistrationImpl implements Registration {
 		String serverUrl = configurationExtractor.getServerUrl();
 		String reporterUrl = configurationExtractor.getReporterUrl();
 		long ping = configurationExtractor.getDefaultPing();
-	/**
 		Integer logNumber = configurationExtractor.getLogNumber();
 		
 		URL url = null;
@@ -156,7 +159,8 @@ public class RegistrationImpl implements Registration {
 		if(logOutput) {log.info("build.3/3) url built, returning <<"); }
 		return url;
 	}//end buildUrl()
-	 * callCollector method
+	
+	/** callCollector method
 	 * 		takes passed in registrationUrl and uses it to opens a connection 
 	 * 		which registers (or updates) the reporter with the collector.
 	 * @param registrationUrl of the collector application]
@@ -203,6 +207,12 @@ public class RegistrationImpl implements Registration {
 			//TODO output MalformedURLException to log file. sbl 7.2.19
 			e.printStackTrace();
 		} catch (ConnectException e) {
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 	private void saveUUIDtoFile(UUID uuid) {
 		File file = new File("./reporter.uuid");
 		

@@ -1,6 +1,9 @@
-Reporter Versions Log
-
-Version # 	  :	 Github Branch  	:	 Description of changes
-============================================================================================================
-1.0.1 		    :	 HK-609       		:	 Fix socket connection error on startup
-------------------------------------------------------------------------------------------------------------
+# Reporter Versions Log
+# 
+# Version # 	: Date		: Github Branch  	: Description of changes
+# ============================================================================================================
+# 1.0.1 		: ~ ~ ~		: HK-609       		: Fix socket connection error on startup
+# ------------------------------------------------------------------------------------------------------------
+# 1.0.2 		: 12/31/20	: HK-717       		: Added querying for Reporter up/down status 
+#				:			:					: Fixes to RegistrationImpl, and switches added for log output during testing 
+# ------------------------------------------------------------------------------------------------------------

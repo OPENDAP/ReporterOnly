@@ -37,7 +37,6 @@ import org.opendap.harvester.config.ConfigurationExtractor;
 import org.opendap.harvester.entity.LogData;
 import org.opendap.harvester.entity.dto.LogDataDto;
 import org.opendap.harvester.service.LogExtractionService;
-import org.opendap.harvester.service.Registration;
 import org.opendap.harvester.service.impl.RegistrationImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +54,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/")
 public class ReporterController {
-	//private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ReporterApplication.class);
+	private boolean logOutput = false;
 	
     /**
      * Autowired automatically inject some of the HyraxInstanceRegisterService implementations to this
@@ -72,25 +72,25 @@ public class ReporterController {
     @RequestMapping(path = "/log", method = RequestMethod.GET)
     @ResponseBody
     public LogDataDto getLogsSince(@RequestParam(required = false) String since) throws Exception {
-    	//log.info("/log.1/5) getLogsSince() entry");
+    	if(logOutput) { log.info("/log.1/5) getLogsSince() entry");}
         LogData logData;
-        //log.info("/log.2/5) checking if 'since' is empty");
+        if(logOutput) { log.info("/log.2/5) checking if 'since' is empty");}
         if (!StringUtils.isEmpty(since)){
-        	//log.info("/log.3/5) 'since' is not empty, extracting recent data ...");
+        	if(logOutput) { log.info("/log.3/5) 'since' is not empty, extracting recent data ...");}
             LocalDateTime localDateTime = LocalDateTime.parse(since);
-            //log.info("/log.3.2) time : " + localDateTime);
+            if(logOutput) { log.info("/log.3.2) time : " + localDateTime);}
             logData = logExtractionService.extractLogDataSince(localDateTime);
-            //log.info("/log.3.3) log data :\n" + logData);
+            if(logOutput) { log.info("/log.3.3) log data : size - "+logData.getLines().size()+"\n" + logData.toString());}
         } else {
-        	//log.info("/log.3/5) 'since' is empty, extracting all data ...");
+        	if(logOutput) { log.info("/log.3/5) 'since' is empty, extracting all data ...");}
             logData = logExtractionService.extractAllLogData();
         }
-        //log.info("/log.4/5) data extracted, checking data ..."); 
+        if(logOutput) { log.info("/log.4/5) data extracted, checking data ...");} 
         if (logData == null){
-        	//log.info("log.4e) data is null");
+        	if(logOutput) { log.info("log.4e) data is null");}
             throw new IllegalStateException("Log data is null");
         }
-        //log.info("/log.5/5) kosher data, returning <<");
+        if(logOutput) { log.info("/log.5/5) kosher data, returning <<");}
         return logExtractionService.buildDto(logData);
     }
     
