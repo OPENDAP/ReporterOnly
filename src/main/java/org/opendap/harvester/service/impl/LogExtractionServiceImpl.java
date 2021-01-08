@@ -66,12 +66,12 @@ public class LogExtractionServiceImpl implements LogExtractionService {
 
     @Override
     public LogData extractLogDataSince(LocalDateTime time) throws IOException {
-    	//log.info("extract.1/2) extractLogDataSince() entry, building ..."); // <---
+    	if(logOutput) { log.info("extractLogDataSince() | >>> function start"); }
     	LogData logData = LogData.builder()
                 .lines(getLogLines(time))
                 .build();
-    	
-    	//log.info("extract.2/2) log data built, returning <<"); // <---
+    	if(logOutput) { log.info("extractLogDataSince() | log data : size - "+logData.getLines().size()); }
+    	if(logOutput) { log.info("extractLogDataSince() | returning <<<"); }
         return logData;
     }
 
@@ -96,36 +96,39 @@ public class LogExtractionServiceImpl implements LogExtractionService {
      */
     private List<LogLine> getLogLines(LocalDateTime since) throws IOException {
     // 5/2/19 - SBL - added test for blank lines and lines that do not match pattern
-    	//log.info("getLL.1/5) getLogLines() entry, getting pattern ..."); // <---
+    	if(logOutput) { log.info("getLogLines() | >>> function start"); }
         LinePattern linePattern = configurationExtractor.getLinePattern();
-        //log.info("getLL.2/5) pattern retrieved, building config ..."); // <---
+        
+        if(logOutput) { log.info("getLogLines() | building config ..."); }
         LinePatternConfig config = LinePatternConfig.builder()
                 .pattern(Pattern.compile(linePattern.getRegexp()))
                 .names(linePattern.getNames().split(";"))
                 .build();
 
-        //log.info("getLL.3/5) pattern built, reading lines ..."); 
-        //log.info("getLL.3.1) filepath : "+ configurationExtractor.getHyraxLogfilePath()); 
+        if(logOutput) { log.info("getLogLines() | ... config built"); } 
+        if(logOutput) { log.info("getLogLines() | filepath : "+ configurationExtractor.getHyraxLogfilePath()); } 
         List<String> allLines = Files.readAllLines(Paths.get(configurationExtractor.getHyraxLogfilePath()), Charset.defaultCharset());
-        //log.info("getLL.4/5) lines read : "+allLines.size()+", value of 0 : "+ allLines.get(0)); 
-        //log.info("getLL.4.0.1) parsing lines ..."); 
+        
+        if(logOutput) { log.info("getLogLines() | lines read : "+allLines.size()+", value of 0 : "+ allLines.get(0)); } 
+        if(logOutput) { log.info("getLogLines() | parsing lines ..."); }
         List<LogLine> parsedLines = new ArrayList<>();
-        //int x = 1; // <-- used in debugging, SBL - 7.2.19
+        int x = 1; // <-- used in debugging, SBL - 7.2.19
         int y = 0;
         for (String line : allLines){
         	
         	if (line.trim().isEmpty()) { // <--- check for blank line before parsing
-        		//log.info("getLL.4."+x+") blank line, skipping");
-        		//x++; // <-- used in debugging, SBL - 7.2.19
+        		if(logOutput) { log.info("getLogLines() | 	- "+x+") blank line, skipping"); }
+        		if(logOutput) { x++; } // <-- used in debugging, SBL - 7.2.19
         		continue;
         	}//end if - blank line test
         	
             LogLine parsedLogLine = logLineService.parseLogLine(line, config); //parse line
-            //log.info("getLL.4."+x+") line : "+ parsedLogLine.getValues().toString()); //output values 
+            //if(logOutput) { log.info("getLogLines() | 	- "+x+") line : "+ parsedLogLine.getValues().toString()); }//output values 
             boolean matched = !parsedLogLine.getValues().isEmpty(); //check if line was a match or not
             
             if (matched && (since == null || logLineService.getLocalDateTime(parsedLogLine).isAfter(since))){ 
-            	//log.info("getLL.4."+x+") adding parsed line"); 
+            	if(logOutput) { log.info("getLogLines() | 	- "+x+") line : "+ parsedLogLine.getValues().toString()); }//output values
+            	if(logOutput) { log.info("getLogLines() | 	- "+x+") adding parsed line"); } 
                 parsedLines.add(parsedLogLine);
             }//end if - kosher line
             else if(!matched) { // <--- if not a match
@@ -133,9 +136,9 @@ public class LogExtractionServiceImpl implements LogExtractionService {
             	String error = "/!\\ LogExtractionServiceImpl.java - getLogLines() : malformed log line - \""+ line +"\" /!\\";
             	if(logOutput) { log.error(error); }
             	y++;
-            	//log.info("getLL.4."+x+") line did not match pattern"); 
+            	if(logOutput) { log.info("getLogLines() | 	- "+x+") line did not match pattern"); } 
             }//end if - non kosher line
-            //x++; // <-- used in debugging, SBL - 7.2.19
+            x++; // <-- used in debugging, SBL - 7.2.19
         }//end for loop
         
         if(y != 0) {
@@ -143,7 +146,8 @@ public class LogExtractionServiceImpl implements LogExtractionService {
         	if(logOutput) { log.error(error); }
         }//end if
         
-        //log.info("getLL.5/5) lines parsed, returning <<"); 
+        if(logOutput) { log.info("getLogLines() | ... lines parsed"); }
+        if(logOutput) { log.info("getLogLines() | returning <<"); } 
         return parsedLines;
     }//end getLogLines
 

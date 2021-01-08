@@ -80,7 +80,7 @@ public class ReporterController {
             LocalDateTime localDateTime = LocalDateTime.parse(since);
             if(logOutput) { log.info("/log.3.2) time : " + localDateTime);}
             logData = logExtractionService.extractLogDataSince(localDateTime);
-            if(logOutput) { log.info("/log.3.3) log data :\n" + logData);}
+            if(logOutput) { log.info("/log.3.3) log data : size - "+logData.getLines().size()+"\n" + logData.toString());}
         } else {
         	if(logOutput) { log.info("/log.3/5) 'since' is empty, extracting all data ...");}
             logData = logExtractionService.extractAllLogData();

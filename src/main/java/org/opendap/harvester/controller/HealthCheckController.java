@@ -53,7 +53,8 @@ public class HealthCheckController {
 
     @RequestMapping(path = "/healthcheck", method = RequestMethod.GET)
     public String healthCheck(){
-    	if(logOutput) {	log.info("hc.1) /healthcheck checkpoint"); }
+    	if(logOutput) {	log.info("/healthcheck (log) | >>> function start"); }
+    	//if(logOutput) {	ReporterApplication.logger.info("/healthcheck (logger) | >>> function start"); }
         return "Reporter_Version : " + reporterVersion;
     }
 

@@ -6,8 +6,10 @@
         <HyraxLogfilePath>/etc/olfs/logs/ExampleAnonymous.log</HyraxLogfilePath>
         
         <DefaultPing>
-            <!-- 86400 - daily 60*60*24 -->
-            600 <!-- every 10 mins -->
+            <!-- 86400 - daily -->
+            <!-- 3600 - hourly -->
+            <!-- 600 - 10 mins -->
+            600
         </DefaultPing> 
         
         <CollectorUrl>
@@ -18,10 +20,10 @@
         	http://test.opendap.org/opendap
         </ServerUrl>
         <ReporterUrl>
-        	http://54.89.183.196:8080/reporter
+        	http://test.opendap.org:8080/reporter
         </ReporterUrl>
         <LogNumber>
-        	100
+        	10000
         </LogNumber>
         
         <!--  LogFilePatternPath>
