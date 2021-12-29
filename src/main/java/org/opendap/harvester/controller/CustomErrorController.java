@@ -26,8 +26,9 @@
 package org.opendap.harvester.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.boot.web.servlet.error.ErrorController;
+
 //import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +57,7 @@ public class CustomErrorController implements ErrorController {
         return "errorPage";
     }
 
-    @Override
+    //@Override
     public String getErrorPath() {
         return PATH;
     }
