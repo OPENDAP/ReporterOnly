@@ -77,7 +77,7 @@ dependencies {
 	
     implementation group: 'org.json', name: 'json', version: '20180813'
 	
-    // pprovidedRuntime is added by the war plugin. jhrg 12/29/21
+    // providedRuntime is added by the war plugin. jhrg 12/29/21
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
