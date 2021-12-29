@@ -57,6 +57,8 @@ jar {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+// For excluding one or more library globally ...
+// See: https://stackoverflow.com/questions/21764128/how-do-i-exclude-all-instances-of-a-transitive-dependency-when-using-gradle
 configurations.all {
     exclude group: "commons-logging", module: "commons-logging"
 }
