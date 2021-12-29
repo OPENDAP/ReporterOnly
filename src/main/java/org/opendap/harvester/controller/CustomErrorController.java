@@ -26,6 +26,7 @@
 package org.opendap.harvester.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 
@@ -35,6 +36,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -47,7 +50,11 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping(value = PATH)
     public String error(Model model, HttpServletRequest request) {
-        Map<String, Object> errorAttributes = getErrorAttributes(request, true);
+        // Springboot 2 changed the API for getErrorAttributes() and I changed this code
+        // to use the new ErrorAttributeOptions with its default values. I dropped the
+        // boolean for a stack trace. If the defaults are too ugly, we can dig though
+        // the Spring boot docs. jhrg 12/29/21
+        Map<String, Object> errorAttributes = getErrorAttributes(request /*, true*/);
         model.addAttribute("status", errorAttributes.get("status"));
         model.addAttribute("error", errorAttributes.get("error"));
         model.addAttribute("message", errorAttributes.get("message"));
@@ -62,8 +69,10 @@ public class CustomErrorController implements ErrorController {
         return PATH;
     }
 
-    private Map<String, Object> getErrorAttributes(HttpServletRequest request, boolean includeStackTrace) {
-        RequestAttributes requestAttributes = new ServletRequestAttributes(request);
-        return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
+    private Map<String, Object> getErrorAttributes(HttpServletRequest request) {
+        // RequestAttributes requestAttributes = new ServletRequestAttributes(request);
+        WebRequest webRequest = new ServletWebRequest(request);
+        ErrorAttributeOptions errorAttributeOptions = ErrorAttributeOptions.defaults();
+        return errorAttributes.getErrorAttributes(webRequest, errorAttributeOptions);
     }
 }
